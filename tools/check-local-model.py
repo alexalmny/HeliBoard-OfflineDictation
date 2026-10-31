@@ -45,5 +45,10 @@ recognizer.decode_stream(stream)
 finished = time.monotonic()
 text = stream.result.text
 assert text.strip(), "Empty transcript"
+silence = recognizer.create_stream()
+silence.accept_waveform(16000, np.zeros(16000, dtype=np.float32))
+recognizer.decode_stream(silence)
+assert not silence.result.text.strip(), "Unexpected transcript on digital silence"
 print(json.dumps(dict(audio_seconds=len(samples)/16000, load_seconds=loaded-start,
-    decode_seconds=finished-loaded, text=text, platform="Linux VM, not Android"), ensure_ascii=False, indent=2))
+    decode_seconds=finished-loaded, text=text, digital_silence=silence.result.text,
+    platform="Linux VM, not Android"), ensure_ascii=False, indent=2))

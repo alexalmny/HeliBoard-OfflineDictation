@@ -63,6 +63,7 @@ Fichiers du modèle épinglés et vérifiés ; extrait français fourni par le d
 - Décodage : **1,71 s**.
 - RSS maximale du processus : **environ 1,0 Go**.
 - Résultat : « Ne vous demandez pas ce que votre pays peut faire pour vous. Demandez-vous plutôt ce que vous pouvez faire pour lui. »
+- Second passage réussi : même texte et **aucun texte produit sur 1 seconde de silence numérique**. Ce contrôle ne vaut pas détection du silence d’un vrai microphone bruité.
 
 C’est un **smoke test sur un seul extrait**, pas une mesure WER, pas une évaluation générale du français, pas un test de la capture micro Android ou de la latence mobile. La RAM de l’application Android peut être différente. Reproduction optionnelle avec `tools/check-local-model.py` (dépendances de test seulement : `sherpa-onnx==1.12.40`, `numpy`).
 
@@ -70,7 +71,20 @@ C’est un **smoke test sur un seul extrait**, pas une mesure WER, pas une éval
 
 `ModelFilesTest` vérifie les SHA-256, tailles exactes, corruptions de même taille, fichiers tronqués/surdimensionnés/absents et le catalogue de quatre fichiers épinglés. `ModelStoreTest` vérifie qu’une installation partielle ou un composant manquant/tronqué ne peut pas apparaître prêt. Les checksums complets sont vérifiés avant le chargement natif ; le contrôle rapide d’état ne remplace pas cette vérification.
 
-La compilation et les résultats des tests exécutés sont consignés dans le compte rendu de livraison. **Aucun téléphone Android n’est connecté à la VM** : installation, capture réelle, mode avion, compatibilité IME entre applications, interface, batterie et performances mobiles restent à valider avec la checklist de l’audit.
+`VoiceInputAvailabilityTest` vérifie aussi que le micro local ne dépend plus d’un moteur vocal externe, et que les champs de mot de passe et l’option d’interdiction du micro de l’application restent respectés.
+
+**Livraison vérifiée :**
+
+- Construction finale **sur cette VM ARM64** : `BUILD SUCCESSFUL`, APK produit.
+- **9 tests réussis**, zéro échec : 7 nouveaux tests de dictée/installation/disponibilité et 2 tests existants `KeySpecParserTest`. La suite complète d’HeliBoard n’a pas été exécutée.
+- Compilation indépendante du cœur de l’intégration et tests ciblés réussis sur [GitHub Actions](https://github.com/alexalmny/HeliBoard-OfflineDictation/actions/runs/41167439110). L’APK distribué est celui de la VM ; le correctif final d’autorité du fournisseur de fichiers est vérifié dans cet APK.
+- Signature APK v2 vérifiée par `apksigner` ; contrôle `zipalign -c -P 16 4` réussi ; bibliothèques ARM64 uniquement et notices de licences présentes.
+- Identifiant vérifié : `fr.alexalmny.offlinedictation.debug`, SDK minimum 26, cible 35. Autorité du fournisseur distincte d’HeliBoard original.
+- APK : `HeliBoard-Offline_3.7-local.1-arm64-debug.apk`.
+- SHA-256 : `4d39548b7b633f39f563e0cac9810f2d2b12c2fe79549740a6d7d3e584f189aa`.
+- Téléchargement : [préversion v0.1.0-local](https://github.com/alexalmny/HeliBoard-OfflineDictation/releases/tag/v0.1.0-local).
+
+**Aucun téléphone Android n’est connecté à la VM** : installation, capture réelle, mode avion, compatibilité IME entre applications, interface, batterie et performances mobiles restent à valider avec la checklist de l’audit.
 
 ## Licences et provenance
 
