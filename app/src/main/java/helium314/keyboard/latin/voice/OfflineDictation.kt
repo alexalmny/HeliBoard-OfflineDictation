@@ -40,8 +40,7 @@ class OfflineDictation(private val ime: LatinIME) {
     fun toggle(token: IBinder) {
         if (job != null) { audio?.stop(); return }
         val editor = ime.currentInputEditorInfo ?: return
-        if (InputTypeUtils.isPasswordInputType(editor.inputType) ||
-            InputTypeUtils.isVisiblePasswordInputType(editor.inputType)) {
+        if (InputTypeUtils.isAnyPasswordInputType(editor.inputType)) {
             message("Dictée désactivée dans les champs de mot de passe.")
             return
         }
