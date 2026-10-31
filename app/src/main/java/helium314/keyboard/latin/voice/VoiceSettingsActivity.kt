@@ -39,7 +39,9 @@ class VoiceSettingsActivity : Activity() {
             setOnClickListener { requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), 1) }
             content.addView(this)
         }
-        status = text("")
+        status = text("").apply {
+            accessibilityLiveRegion = android.view.View.ACCESSIBILITY_LIVE_REGION_POLITE
+        }
         download = Button(this).apply {
             text = "Télécharger / réparer le modèle"
             setOnClickListener { install() }
@@ -55,6 +57,10 @@ class VoiceSettingsActivity : Activity() {
         refresh()
     }
     override fun onResume() { super.onResume(); if (::microphone.isInitialized) refresh() }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        refresh()
+    }
     private fun refresh() {
         microphone.isEnabled = checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
         status.text = if (store.installed()) "Modèle installé et vérifié. Prêt pour une dictée hors ligne." else "Modèle non installé."

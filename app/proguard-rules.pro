@@ -1,3 +1,6 @@
+# JNI reads sherpa-onnx model/config fields and classes by name.
+-keep class com.k2fsa.sherpa.onnx.** { *; }
+
 # Keep native methods
 -keepclassmembers class * {
     native <methods>;

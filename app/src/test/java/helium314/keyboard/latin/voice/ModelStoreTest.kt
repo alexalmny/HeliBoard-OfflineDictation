@@ -10,11 +10,13 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.ConscryptMode
 import java.io.File
 import java.io.RandomAccessFile
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28], application = Application::class)
+@ConscryptMode(ConscryptMode.Mode.OFF) // Filesystem tests do not need native TLS (unavailable on Linux ARM64).
 class ModelStoreTest {
     private lateinit var store: ModelStore
     @Before fun setup() {
