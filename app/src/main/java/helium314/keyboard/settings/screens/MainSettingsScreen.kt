@@ -49,6 +49,7 @@ fun MainSettingsScreen(
         title = stringResource(R.string.ime_settings),
         settings = emptyList(),
     ) {
+        val context = LocalContext.current
         val enabledSubtypes = SubtypeSettings.getEnabledSubtypes(true)
         Scaffold(contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)) { innerPadding ->
             Column(
@@ -59,6 +60,15 @@ fun MainSettingsScreen(
                     description = enabledSubtypes.joinToString(", ") { it.displayName() },
                     onClick = onClickLanguage,
                     icon = R.drawable.ic_settings_languages
+                ) { NextScreenIcon() }
+                Preference(
+                    name = "Dictée hors ligne",
+                    description = "Parakeet · microphone et modèle local",
+                    onClick = {
+                        context.startActivity(android.content.Intent(context,
+                            helium314.keyboard.latin.voice.VoiceSettingsActivity::class.java))
+                    },
+                    icon = R.drawable.sym_keyboard_voice_lxx
                 ) { NextScreenIcon() }
                 Preference(
                     name = stringResource(R.string.settings_screen_preferences),

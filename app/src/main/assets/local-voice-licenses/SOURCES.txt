@@ -1,0 +1,20 @@
+Local voice integration: HeliBoard Offline Dictation, GPL-3.0-only.
+Source: https://github.com/alexalmny/HeliBoard-OfflineDictation/tree/offline-dictation
+Base: HeliBoard v3.7, https://github.com/Helium314/HeliBoard/tree/v3.7
+
+sherpa-onnx 1.12.40, Apache License 2.0:
+https://github.com/k2-fsa/sherpa-onnx/tree/v1.12.40
+Official Android AAR SHA-256:
+a7699d6a2e638a38791b2459cb0099c7577e6e5fca6b8ae916742c872a618b82
+Includes ONNX Runtime 1.24.3, MIT License:
+https://github.com/microsoft/onnxruntime/tree/v1.24.3
+License texts and ONNX Runtime third-party notices are in this directory.
+
+Model (downloaded separately, not embedded in this APK):
+NVIDIA Parakeet TDT 0.6B v3, CC BY 4.0.
+https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3
+https://creativecommons.org/licenses/by/4.0/
+ONNX INT8 conversion/quantization by csukuangfj, sherpa-onnx project:
+https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8
+Revision: 2bda32ec70b097a55adaa07d9a7173915b43cc78
+Conversion differs from the original NeMo weights; no further training by this fork.

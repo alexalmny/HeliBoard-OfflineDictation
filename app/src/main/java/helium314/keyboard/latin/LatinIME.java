@@ -174,6 +174,7 @@ public class LatinIME extends InputMethodService implements
     final RestartAfterDeviceUnlockReceiver mRestartAfterDeviceUnlockReceiver = new RestartAfterDeviceUnlockReceiver();
 
     private AlertDialog mOptionsDialog;
+    private helium314.keyboard.latin.voice.OfflineDictation mOfflineDictation;
 
     private final boolean mIsHardwareAcceleratedDrawingEnabled;
 
@@ -540,6 +541,7 @@ public class LatinIME extends InputMethodService implements
         mDisplayContext = KtxKt.getDisplayContext(this);
         KeyboardSwitcher.init(this);
         super.onCreate();
+        mOfflineDictation = new helium314.keyboard.latin.voice.OfflineDictation(this);
 
         loadSettings();
         mClipboardHistoryManager.onCreate();
@@ -683,6 +685,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onDestroy() {
+        if (mOfflineDictation != null) mOfflineDictation.close();
         mClipboardHistoryManager.onDestroy();
         mDictionaryFacilitator.closeDictionaries();
         mSettings.onDestroy();
@@ -769,17 +772,20 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onStartInput(final EditorInfo editorInfo, final boolean restarting) {
+        if (mOfflineDictation != null) mOfflineDictation.cancel();
         mHandler.onStartInput(editorInfo, restarting);
     }
 
     @Override
     public void onStartInputView(final EditorInfo editorInfo, final boolean restarting) {
+        if (mOfflineDictation != null) mOfflineDictation.preload();
         mHandler.onStartInputView(editorInfo, restarting);
         mStatsUtilsManager.onStartInputView();
     }
 
     @Override
     public void onFinishInputView(final boolean finishingInput) {
+        if (mOfflineDictation != null) mOfflineDictation.cancel();
         StatsUtils.onFinishInputView();
         mHandler.onFinishInputView(finishingInput);
         mStatsUtilsManager.onFinishInputView();
@@ -788,6 +794,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onFinishInput() {
+        if (mOfflineDictation != null) mOfflineDictation.cancel();
         mHandler.onFinishInput();
     }
 
@@ -1390,7 +1397,9 @@ public class LatinIME extends InputMethodService implements
     // completely replace #onCodeInput.
     public void onEvent(@NonNull final Event event) {
         if (KeyCode.VOICE_INPUT == event.getKeyCode()) {
-            mRichImm.switchToShortcutIme(this);
+            if (mOfflineDictation != null && mInputView != null && mInputView.getWindowToken() != null)
+                mOfflineDictation.toggle(mInputView.getWindowToken());
+            return;
         }
         final InputTransaction completeInputTransaction =
                 mInputLogic.onCodeInput(mSettings.getCurrent(), event,

@@ -22,14 +22,17 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew assembleDebug
+      - name: Fetch verified local speech engine
+        run: bash tools/prepare-local-voice.sh
+
+      - name: Build and test offline dictation
+        run: ./gradlew assembleDebugNoMinify testDebugNoMinifyUnitTest --tests 'helium314.keyboard.latin.voice.*'
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: HeliBoard-debug
-          path: app/build/outputs/apk/debug/*-debug*.apk
+          name: HeliBoard-Offline-debug
+          path: app/build/outputs/apk/debugNoMinify/*.apk
 
       - name: Archive reports for failed job
         uses: actions/upload-artifact@v4

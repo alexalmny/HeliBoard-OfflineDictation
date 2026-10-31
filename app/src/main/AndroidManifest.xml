@@ -8,18 +8,22 @@ SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Network is used only by the explicit, checksum-verified model installer. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-    <application android:label="@string/english_ime_name"
+    <application android:label="@string/offline_ime_name"
             android:name="helium314.keyboard.latin.App"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:allowBackup="true"
+            android:allowBackup="false"
+            android:usesCleartextTraffic="false"
             android:defaultToDeviceProtectedStorage="true"
             android:directBootAware="true"
             tools:remove="android:appComponentFactory"
@@ -27,7 +31,7 @@ SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
 
         <!-- Services -->
         <service android:name="LatinIME"
-                android:label="@string/english_ime_name"
+                android:label="@string/offline_ime_name"
                 android:permission="android.permission.BIND_INPUT_METHOD"
                 android:directBootAware="true"
                 android:exported="true">
@@ -49,6 +53,8 @@ SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
         </service>
 
         <!-- Activities -->
+        <activity android:name=".voice.VoiceSettingsActivity"
+            android:exported="false" android:label="Dictée hors ligne" />
         <activity android:name="helium314.keyboard.settings.SettingsActivity"
                 android:theme="@style/platformActivityTheme"
                 android:icon="@mipmap/ic_launcher"

@@ -1,6 +1,16 @@
-# HeliBoard
+# HeliBoard · Dictée locale
+
+**Fork expérimental : clavier HeliBoard + dictée française hors ligne (Parakeet TDT v3).**
+
+➡️ **[Installation, fonctionnement, compilation et limites](OFFLINE-DICTATION.md)** · **[Audit et sources](docs/voice-audit.md)**
+
+Ce fork utilise Internet **uniquement pour le téléchargement explicite du modèle** (~670 Mo). La dictée est locale, sans clé API. Android 8+ ARM64. Le texte apparaît après l’arrêt du micro, pas en streaming. Aucun APK de ce fork n’est distribué par les liens F-Droid/IzzyOnDroid ci-dessous : ils concernent le projet original.
+
+---
+
+## Présentation du projet original
 HeliBoard is a privacy-conscious and customizable open-source keyboard, based on AOSP / OpenBoard.
-Does not use internet permission, and thus is 100% offline.
+The original HeliBoard does not use internet permission. This fork adds it for model installation only.
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/helium314.keyboard/)
 [<img src="https://user-images.githubusercontent.com/663460/26973090-f8fdc986-4d14-11e7-995a-e7c5e79ed925.png" alt="Get APK from GitHub" height="80">](https://github.com/Helium314/HeliBoard/releases/latest)
