@@ -50,7 +50,9 @@ Le workflow GitHub Actions **Build debug APK** effectue aussi la préparation, l
 
 ### Particularité de la VM ARM64
 
-Le SDK Google Linux et le NDK embarquent des outils hôtes x86_64. Dans la VM utilisée ici : binfmt/QEMU x86_64 existant, ajout local de la bibliothèque hôte **zlib amd64** au RUNPATH du clang NDK, et adaptation locale du détecteur hôte `ndk_bin_common.sh` pour exécuter les outils x86_64 via QEMU sur aarch64. Ces adaptations sont **hors du dépôt** ; elles ne modifient pas le code Android ni l’architecture ARM64 de l’APK. Elles ne sont pas nécessaires sur une machine de build Linux x86_64. SDK et NDK installés dans `/home/ubuntu/Android/Sdk`.
+Le SDK Google Linux et le NDK embarquent des outils hôtes x86_64. Dans la VM utilisée ici : binfmt/QEMU x86_64 existant, ajout local de la bibliothèque hôte **zlib amd64** au RUNPATH du clang NDK, et adaptation locale du détecteur hôte `ndk_bin_common.sh` pour exécuter les outils x86_64 via QEMU sur aarch64. Ces adaptations sont **hors du dépôt** ; elles ne modifient pas le code Android ni l’architecture ARM64 de l’APK. Elles ne sont pas nécessaires sur une machine de build Linux x86_64. SDK et NDK installés dans `/home/ubuntu/Android/Sdk`. La bibliothèque zlib hôte est conservée dans `/home/ubuntu/.local/share/android-host-libs` et le lien du NDK pointe vers cet emplacement.
+
+Le projet se trouve dans `/home/ubuntu/develop/HeliBoard-OfflineDictation`. Les modèles, artefacts, journaux et l'environnement Python de travail restent dans `private/` (exclu de Git) ; le checkout de comparaison WhisperBoard est un projet distinct dans `/home/ubuntu/develop/WhisperBoard`. Aucun modèle ni fichier de build local n'est publié par cette réorganisation.
 
 ## Vérifications
 

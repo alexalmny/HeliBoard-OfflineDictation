@@ -14,3 +14,4 @@ app/.cxx
 app/.attach_*
 fastlane/Appfile
 tools/*.txt
+/private/
